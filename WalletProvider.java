@@ -1,20 +1,61 @@
 public interface WalletProvider {
     public boolean verifyWallet(String mobileNumber);
-    public double getBalance(double balance);
-    public boolean checkBalance(double balance);
+    public double getBalance(String mobileNumber);
+    public boolean checkBalance(String mobileNumber,double amount);
     public void withdrawal(double amount);
     public void deposit(double amount);
 
 }
-public abstract class VodafoneCashProvider implements WalletProvider{
-    //    implements all the functions in walletprovider but in its own unique way than the other wallet providers
+abstract class VodafoneCashProvider implements WalletProvider{
+    private VodafoneCash vodafoneCash;
+    @Override
+    public boolean verifyWallet(String mobileNumber){
+        return vodafoneCash.verifyWallet(mobileNumber);
+    }
+    @Override
+    public double getBalance(String mobileNumber){
+        return vodafoneCash.getBalance(mobileNumber);
+    }
+    @Override
+    public boolean checkBalance(String mobileNumber,double amount) {
+        return vodafoneCash.checkBalance(mobileNumber,amount);
+    }
+    @Override
+    public void withdrawal(double amount){
+        vodafoneCash.withdrawal(amount);
+    }
+    @Override
+    public void deposit(double amount){
+        vodafoneCash.deposit(amount);
+    }
 }
 
-public abstract class CIBWalletProvider implements WalletProvider{
-    //    implements all the functions in walletprovider but in its own unique way than the other wallet providers
+abstract class CIBWalletProvider implements WalletProvider{
+    private CIB cib;
+    @Override
+    public boolean verifyWallet(String mobileNumber){
+        return cib.verifyWallet(mobileNumber);
+    }
+    @Override
+    public double getBalance(String mobileNumber){
+        return cib.getBalance(mobileNumber);
+    }
+    @Override
+    public boolean checkBalance(String mobileNumber,double amount) {
+        return cib.checkBalance(mobileNumber,amount);
+    }
+    @Override
+    public void withdrawal(double amount){
+        cib.withdrawal(amount);
+    }
+    @Override
+    public void deposit(double amount){
+        cib.deposit(amount);
+    }
+
 }
 
-public abstract class FawryProvider implements WalletProvider{
+abstract class FawryProvider implements WalletProvider{
 //    implements all the functions in walletprovider but in its own unique way than the other wallet providers
 }
 
