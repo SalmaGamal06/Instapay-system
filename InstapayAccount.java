@@ -1,6 +1,6 @@
 import java.util.Vector;
 
-public class InstapayAccount {
+public abstract class InstapayAccount {
     Vector<Bill> bills = new Vector<>();
     Transfer t = new Transfer();
 
@@ -38,6 +38,7 @@ public class InstapayAccount {
         t.strategy.transferMoney(r,a);
     }
 
+    public abstract double inquireBalance(String accountNumber);
 }
 
 class BankAccount extends InstapayAccount{
@@ -47,9 +48,17 @@ class BankAccount extends InstapayAccount{
         this.bank = bank;
     }
 
-    public boolean processBankAccountVerification(String mobileNumber){
-        return true;
+    public boolean processBankAccountVerification(String accountNumber){
+             return bank.verifyBankAccount(accountNumber);
     }
 
+    public boolean processMobileNumberVerification(String mobileNumber){
+        return bank.verifyMobileNumber(mobileNumber);
+    }
+
+    @Override
+    public double inquireBalance(String accountNumber) {
+        return bank.getBalance(accountNumber);
+    }
 }
 
