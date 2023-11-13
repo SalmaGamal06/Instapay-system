@@ -1,28 +1,12 @@
-public class NEB implements BankAPI{
-    private NEBAPI neb;
+public interface BankAPI{
 
-    @Override
-    public boolean verifyBankAccount(String mobileNumber) {
-        return neb.verifyClient(mobileNumber);
-    }
+    public boolean verifyBankAccount(String mobileNumber);
 
-    @Override
-    public double getBalance(String accountNumber) {
-        return neb.getBalance(accountNumber);
-    }
+    public double getBalance(String accountNumber);
 
-    @Override
-    public boolean checkBalance(String accountNumber, double amount) {
-        return neb.checkBalance(accountNumber, amount);
-    }
+    public boolean checkBalance(String accountNumber, double amount);
 
-    @Override
-    public boolean withdrawal(String accountNumber, double amount) {
-        return neb.withdrawal( accountNumber,amount);
-    }
+    public boolean withdrawal(String accountNumber, double amount);
 
-    @Override
-    public boolean deposit(String accountNumber, double amount) {
-        return neb.deposit(accountNumber,amount);
-    }
+    public boolean deposit(String accountNumber, double amount);
 }
