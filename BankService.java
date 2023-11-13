@@ -1,4 +1,4 @@
-public interface BankAPI{
+public interface BankService{
 
     public boolean verifyBankAccount(String accountNumber);
     public boolean verifyMobileNumber(String accountNumber);
@@ -12,7 +12,7 @@ public interface BankAPI{
     public boolean deposit(String accountNumber, double amount);
 }
 
-class NEB implements BankAPI{
+class NEBService implements BankService{
     private NEBAPI neb;
 
 
