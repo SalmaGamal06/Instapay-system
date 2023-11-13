@@ -6,7 +6,7 @@ public interface Storage<T>{
     public User get(String uniqueIdentifier);
 }
 
-public class InMemoryStorage implements Storage<User> {
+class InMemoryStorage implements Storage<User> {
     private ArrayList<User> users;
 
     public InMemoryStorage() {
