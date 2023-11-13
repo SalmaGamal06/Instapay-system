@@ -3,8 +3,19 @@ import java.util.ArrayList;
 public class NEBAPI {
     private ArrayList<NEBAccount> accounts;
 
-    public NEBAPI(ArrayList<NEBAccount> accounts) {
-        this.accounts = accounts; // add hard coded accounts
+    public NEBAPI()
+    {
+        ArrayList<NEBAccount> nebAccounts = new ArrayList<>();
+
+        NEBAccount a1 = new NEBAccount("123", "Salma", "1234567", 6000);
+        NEBAccount a2 = new NEBAccount("234", "Laila", "1234569", 7000);
+        NEBAccount a3 = new NEBAccount("345", "Asma", "1234561", 6600);
+
+        nebAccounts.add(a1);
+        nebAccounts.add(a2);
+        nebAccounts.add(a3);
+
+        this.accounts = nebAccounts;
     }
 
     public boolean verifyClient(String mobileNumber) {
@@ -12,6 +23,17 @@ public class NEBAPI {
         for (NEBAccount account : accounts) {
             mobile = account.getMobileNumber();
             if (mobile.equals(mobileNumber)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean verifyAccount(String accountNumber) {
+        String mobile;
+        for (NEBAccount account : accounts) {
+            mobile = account.getMobileNumber();
+            if (mobile.equals(accountNumber)) {
                 return true;
             }
         }
@@ -40,36 +62,16 @@ public class NEBAPI {
         return null;
     }
 
-    public  boolean withdrawal(String accountNumber, double amount){
-        NEBAccount account  = getAccount(accountNumber);
-        return account!= null && account.withdraw(amount);
+    public boolean withdrawal(String accountNumber, double amount) {
+        NEBAccount account = getAccount(accountNumber);
+        return account != null && account.withdraw(amount);
     }
 
-    public  boolean deposit(String accountNumber, double amount){
-        NEBAccount account  = getAccount(accountNumber);
-        return account!= null && account.deposit(amount);
+    public boolean deposit(String accountNumber, double amount) {
+        NEBAccount account = getAccount(accountNumber);
+        return account != null && account.deposit(amount);
     }
-
-// TODO : remove this
-//    public static void main(String[] args) {
-//        NEBAccount a1 = new NEBAccount("123", "Salma", "1234567", 6000);
-//        NEBAccount a2 = new NEBAccount("234", "Laila", "1234569", 7000);
-//        NEBAccount a3 = new NEBAccount("345", "Asma", "1234561", 6600);
-//
-//        ArrayList<NEBAccount> acc = new ArrayList<>();
-//        acc.add(a1);
-//        acc.add(a2);
-//        acc.add(a3);
-//
-//        NEBAPI nebBank = new NEBAPI(acc);
-//        if (nebBank.verifyClient("1234567")) System.out.println("client exists");
-//        System.out.println(nebBank.getBalance("123"));
-//        if (nebBank.withdrawal("123", 5000)) System.out.println("Success");
-//        System.out.println(nebBank.getBalance("123"));
-//
-//    }
 }
-
 class NEBAccount{
     private String accountNumber;
     private String name;
