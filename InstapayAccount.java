@@ -41,10 +41,10 @@ public class InstapayAccount {
 }
 
 class BankAccount extends InstapayAccount{
-    BankAPI bankAPI;
+    BankService bank;
 
-    public BankAccount(BankAPI bankAPI) {
-        this.bankAPI = bankAPI;
+    public BankAccount(BankService bank) {
+        this.bank = bank;
     }
 
     public boolean processBankAccountVerification(String mobileNumber){

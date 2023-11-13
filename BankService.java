@@ -1,6 +1,7 @@
-public interface BankAPI{
+public interface BankService{
 
-    public boolean verifyBankAccount(String mobileNumber);
+    public boolean verifyBankAccount(String accountNumber);
+    public boolean verifyMobileNumber(String accountNumber);
 
     public double getBalance(String accountNumber);
 
@@ -11,11 +12,17 @@ public interface BankAPI{
     public boolean deposit(String accountNumber, double amount);
 }
 
-class NEB implements BankAPI{
+class NEBService implements BankService{
     private NEBAPI neb;
 
+
     @Override
-    public boolean verifyBankAccount(String mobileNumber) {
+    public boolean verifyBankAccount(String accountNumber) {
+        return  neb.verifyAccount(accountNumber);
+    }
+
+    @Override
+    public boolean verifyMobileNumber(String mobileNumber) {
         return neb.verifyClient(mobileNumber);
     }
 
