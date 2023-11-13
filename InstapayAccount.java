@@ -40,3 +40,16 @@ public class InstapayAccount {
 
 }
 
+class BankAccount extends InstapayAccount{
+    BankAPI bankAPI;
+
+    public BankAccount(BankAPI bankAPI) {
+        this.bankAPI = bankAPI;
+    }
+
+    public boolean processBankAccountVerification(String mobileNumber){
+        return true;
+    }
+
+}
+
