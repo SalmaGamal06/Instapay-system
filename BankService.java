@@ -47,3 +47,39 @@ class NEBService implements BankService{
     }
 }
 
+
+class QNBService implements BankService{
+    private QNBAPI qnb;
+
+
+    @Override
+    public boolean verifyBankAccount(String accountNumber) {
+        return  qnb.verifyAccount(accountNumber);
+    }
+
+    @Override
+    public boolean verifyMobileNumber(String mobileNumber) {
+        return qnb.verifyClient(mobileNumber);
+    }
+
+    @Override
+    public double getBalance(String accountNumber) {
+        return qnb.getBalance(accountNumber);
+    }
+
+    @Override
+    public boolean checkBalance(String accountNumber, double amount) {
+        return qnb.checkBalance(accountNumber, amount);
+    }
+
+    @Override
+    public boolean withdrawal(String accountNumber, double amount) {
+        return qnb.withdrawal( accountNumber,amount);
+    }
+
+    @Override
+    public boolean deposit(String accountNumber, double amount) {
+        return qnb.deposit(accountNumber,amount);
+    }
+}
+
