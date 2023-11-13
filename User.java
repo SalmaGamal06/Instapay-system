@@ -1,15 +1,18 @@
+import java.io.*;
+import java.util.Scanner;
+import java.util.regex.Pattern;
+
 public class User {
     private String userName;
     private String password;
-    private String email;
     private String mobileNumber;
-    //private InstapayAccount instapayAccount;
+    private InstapayAccount instapayAccount;
 
-    public User(String userName, String password, String email, String mobileNumber) {
+    public User(String userName, String password, String mobileNumber, String accountType) {
         this.userName = userName;
         this.password = password;
-        this.email = email;
         this.mobileNumber = mobileNumber;
+        setInstapayAccount(accountType);
     }
     public String getUserName() {
         return userName;
@@ -17,28 +20,167 @@ public class User {
     public String getPassword() {
         return password;
     }
-    public String getEmail() {
-        return email;
-    }
     public String getMobileNumber() {
         return mobileNumber;
     }
-    //public InstapayAccount getInstapayAccount() {
-    //    return instapayAccount;
-    //}
-    //public void setInstapayAccount(InstapayAccount instapayAccount) {
-    //    this.instapayAccount = instapayAccount;
-    //}
+    public String getTypeOfInstapayAccount() {
+        if(instapayAccount instanceof BankAccount){return "Bank";}
+            return "Wallet";
+    }
+    public void setInstapayAccount(String accountType) {
+        if(accountType.equals("Bank")){
+            this.instapayAccount = new BankAccount();
+        }
+        else if(accountType.equals("Wallet")){
+            this.instapayAccount = new WalletAccount();
+        }
+    }
     public void setUserName(String userName) {
         this.userName = userName;
     }
     public void setPassword(String password) {
         this.password = password;
     }
-    public void setEmail(String email) {
-        this.email = email;
-    }
     public void setMobileNumber(String mobileNumber) {
         this.mobileNumber = mobileNumber;
+    }
+}
+
+class Registration{
+    private OTP otp;
+    private User user;
+    private FileStorage file;
+    private validation validation;
+
+    public void register() throws IOException {
+        System.out.println("-----------------Registration-----------------");
+        System.out.print("Enter your username: ");
+        Scanner scanner = new Scanner(System.in);
+        String userName =scanner.nextLine();
+        validation=new UserNameValidation();
+        if(validation.isValid(userName)){
+            file=new FileStorage();
+            if(!file.isUserNameExist(userName)){
+                System.out.print("Enter your password: ");
+                String password =scanner.nextLine();
+                validation=new PasswordValidation();
+                if(validation.isValid(password)){
+                    System.out.print("Enter your mobile number: ");
+                    String mobileNumber =scanner.nextLine();
+                    validation=new MobileNumberValidation();
+                    if(validation.isValid(mobileNumber)){
+                        if(!file.isMobileNumberExist(mobileNumber)){
+                            otp=new OTP();
+                            otp.sendOTP();
+                            if(!otp.verifyOTP()){
+                                System.out.println("Registration failed, Try again later");
+                                return;
+                            }
+                            System.out.print("Enter your account type (Bank/Wallet): ");
+                            String accountType =scanner.nextLine();
+                            if(accountType.equals("Bank") || accountType.equals("Wallet")){
+                                user=new User(userName,password,mobileNumber,accountType);
+                                file.add(user);
+                                System.out.println("Registration done successfully");
+
+                            }
+                            else{
+                                System.out.println("Invalid account type");
+                                while(true){
+                                    System.out.print("Enter your account type (Bank/Wallet): ");
+                                    accountType =scanner.nextLine();
+                                    if(accountType.equals("Bank") || accountType.equals("Wallet")){
+                                        user=new User(userName,password,mobileNumber,accountType);
+                                        file.add(user);
+                                        System.out.println("Registration done successfully");
+                                        break;
+                                    }
+                                    else{
+                                        System.out.println("Invalid account type");
+                                    }
+                                }
+                            }
+                        }
+                        else{
+                            System.out.println("Mobile number is already exist");
+                            System.out.println("Registration failed, Try again later");
+                        }
+                    }
+                    else{
+                        System.out.println("Invalid mobile number");
+                        System.out.println("Registration failed, Try again later");
+                    }
+                }
+                else{
+                    System.out.println("Invalid password");
+                    System.out.println("Registration failed, Try again later");
+                }
+            }
+            else{
+                System.out.println("Username is already exist");
+                System.out.println("Registration failed, Try again later");
+            }
+        }
+        else{
+            System.out.println("Invalid username");
+            System.out.println("Registration failed, Try again later");
+        }
+    }
+
+
+}
+//Template Method Design Pattern
+abstract class validation{
+    public boolean isValid(String input){
+        String userNameRegex = getRegexExpression();
+        Pattern pattern = Pattern.compile(userNameRegex);
+        return pattern.matcher(input).matches();
+    }
+    public abstract String getRegexExpression();
+}
+class UserNameValidation extends validation{
+    @Override
+    public String getRegexExpression() {
+        return "^[a-zA-Z0-9_]{5,}$";
+    }
+}
+class PasswordValidation extends validation{
+    @Override
+    public String getRegexExpression() {
+        return "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
+    }
+}
+class MobileNumberValidation extends validation{
+    @Override
+    public String getRegexExpression() {
+        return "^(010|011|012|015)[0-9]{8}$";
+    }
+}
+class Login{
+    private FileStorage file;
+
+    public void login() throws IOException {
+        System.out.println("-----------------Login-----------------");
+        System.out.print("Enter your username: ");
+        Scanner scanner = new Scanner(System.in);
+        String userName =scanner.nextLine();
+        System.out.print("Enter your password: ");
+        String password =scanner.nextLine();
+        file=new FileStorage();
+        if(file.isUserNameExist(userName)){
+            User user=file.read(userName);
+            if(user.getPassword().equals(password)){
+                System.out.println("Login done successfully");
+                System.out.println("Welcome "+user.getUserName());
+            }
+            else{
+                System.out.println("Invalid password");
+                System.out.println("Login failed, Try again later");
+            }
+        }
+        else{
+            System.out.println("Invalid username");
+            System.out.println("Login failed, Try again later");
+        }
     }
 }
