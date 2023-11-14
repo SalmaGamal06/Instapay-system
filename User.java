@@ -7,12 +7,13 @@ public class User {
     private String password;
     private String mobileNumber;
     private InstapayAccount instapayAccount;
+    private String provider;
 
-    public User(String userName, String password, String mobileNumber, String accountType) {
+    public User(String userName, String password, String mobileNumber, String accountType, String provider) {
         this.userName = userName;
         this.password = password;
         this.mobileNumber = mobileNumber;
-        setInstapayAccount(accountType);
+        setInstapayAccount(accountType,provider);
     }
     public String getUserName() {
         return userName;
@@ -27,11 +28,25 @@ public class User {
         if(instapayAccount instanceof BankAccount){return "Bank";}
             return "Wallet";
     }
-    public void setInstapayAccount(String accountType) {
+    public void setInstapayAccountAndProvider(String accountType,String provider) {
         if(accountType.equals("Bank")){
-            this.instapayAccount = new BankAccount();
+            if(provider.equals("NEB")) {
+                this.instapayAccount = new BankAccount(new NEBService());
+            }
+            else if(provider.equals("QNB")){
+                this.instapayAccount = new BankAccount(new QNBService());
+            }
         }
         else if(accountType.equals("Wallet")){
+            if(provider.equals("Vodafone")){
+//                this.instapayAccount = new WalletAccount(new VodafoneCashProvider());
+            }
+            else if(provider.equals("CIB")){
+//                this.instapayAccount = new WalletAccount(new CIBWalletProvider());
+            }
+            else if(provider.equals("Fawry")){
+//                this.instapayAccount = new WalletAccount(new FawryProvider());
+            }
             this.instapayAccount = new WalletAccount();
         }
     }
@@ -50,7 +65,7 @@ class Registration{
     private OTP otp;
     private User user;
     private FileStorage file;
-    private validation validation;
+    private Validation validation;
 
     public void register() throws IOException {
         System.out.println("-----------------Registration-----------------");
@@ -130,7 +145,7 @@ class Registration{
 
 }
 //Template Method Design Pattern
-abstract class validation{
+abstract class Validation{
     public boolean isValid(String input){
         String userNameRegex = getRegexExpression();
         Pattern pattern = Pattern.compile(userNameRegex);
@@ -138,19 +153,19 @@ abstract class validation{
     }
     public abstract String getRegexExpression();
 }
-class UserNameValidation extends validation{
+class UserNameValidation extends Validation{
     @Override
     public String getRegexExpression() {
         return "^[a-zA-Z0-9_]{5,}$";
     }
 }
-class PasswordValidation extends validation{
+class PasswordValidation extends Validation{
     @Override
     public String getRegexExpression() {
         return "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$";
     }
 }
-class MobileNumberValidation extends validation{
+class MobileNumberValidation extends Validation{
     @Override
     public String getRegexExpression() {
         return "^(010|011|012|015)[0-9]{8}$";
