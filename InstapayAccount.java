@@ -1,16 +1,16 @@
 import java.util.Vector;
 
 public abstract class InstapayAccount {
-    Vector<Bill> bills = new Vector<>();
-    Transfer t = new Transfer();
+    //figure out a way to fill the vector :)
+    Vector<Bill> bills = new Vector<>(3) ;
+    Bill wb = new WaterBill();
+    Bill gb = new GasBill();
+    Bill eb = new ElectricBill();
+
+//    Transfer t = new Transfer();
 
     public abstract double inquireBalance();
-    public void addBill(BillStrategy s){
-        Bill b = new Bill();
-        b.setBillStrategy(s);
-        b.createRandomBill();
-        bills.add(b);
-    }
+
     private Bill findBillById(String targetBillId) {
         for (Bill bill : bills)
             if (bill.getBillID().equals(targetBillId)) {
@@ -32,12 +32,7 @@ public abstract class InstapayAccount {
 
         }
     }
-    public void transaction(TransferStrategy s, String r, double a){
-        t.setTransferStrategy(s);
-        t.strategy.transferMoney(r,a);
-    }
 
-    public abstract double inquireBalance(String accountNumber);
 }
 
 class BankAccount extends InstapayAccount{
@@ -58,10 +53,17 @@ class BankAccount extends InstapayAccount{
         return bank.verifyMobileNumber(mobileNumber);
     }
 
+    public BankService getBankService(){
+        return bank;
+    }
+
     @Override
     public double inquireBalance() {
         return bank.getBalance(this.bankAccountNumber);
     }
+
+
+
 }
 
 
@@ -73,6 +75,9 @@ class WalletAccount extends InstapayAccount{
     @Override
     public double inquireBalance() {
         return wallet.getBalance(this.PhoneNumber);
+    }
+    public WalletProvider getWallet(){
+        return wallet;
     }
 }
 

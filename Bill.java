@@ -1,51 +1,77 @@
 import java.util.UUID;
 import java.util.Random;
 
-public class Bill {
+public abstract class Bill {
+
+    BankTransfer t = new BankTransfer();
+
     private double amount;
-    private boolean isPaid;
-    private String billID;
-    private BillStrategy strategy;
+
 
     public double getAmount() {
         return amount;
     }
 
-    public boolean isPaid() {
-        return isPaid;
-    }
 
-    public String getBillID() {
-        return billID;
-    }
-
-    private static String generateRandomBillId() {
-        UUID uuid = UUID.randomUUID();
-        return uuid.toString().substring(0, 8);
-    }
-
-    private static double generateRandomAmount() {
+    public void generateRandomBill() {
         Random random = new Random();
-        return 10.0 + (10.0 - 500.0) * random.nextDouble();
+        this.amount = 10.0 + (10.0 - 500.0) * random.nextDouble();
     }
+    abstract void payBill();
+}
 
-    public Bill createRandomBill() {
-        double amnt = generateRandomAmount();
-        String id = generateRandomBillId();
-        Bill bill = new Bill();
-        bill.amount = amnt;
-        bill.billID = id;
-        return bill;
+
+class ElectricBill extends Bill{
+    String electricCompanyBankAccountNumber;
+
+
+
+    @Override
+    public void payBill() {
+
+        //get balance from bank check if enough to pay
+        //if balance is enough then call func from bank to deduce the bill amount from balance
+        // and change isPaid to true as well as sending the deducted amount to the electricity company
+        //else print error message saying the balance is not enough
+
+        //t.transferMoney(this.electricMeterID,amnt);
+
+
     }
+}
 
-    public void setBillStrategy(BillStrategy strategy) {
-        this.strategy = strategy;
+class GasBill extends Bill{
+    String gasCompanyBankAccountNumber;
+
+
+
+    @Override
+    public void payBill() {
+
+        //get balance from bank check if enough to pay
+        //if balance is enough then call func from bank to deduce the bill amount from balance
+        // and change isPaid to true as well as sending the deducted amount to the Gas company
+        //else print error message saying the balance is not enough
+
+        //t.transferMoney(this.gasMeterID,amnt);
+
     }
+}
 
-    public void excutePayment() {
-        strategy.pay(this.amount);
+class WaterBill extends Bill{
+    String waterCompanyBankAccountNumber;
+
+
+    @Override
+    public void payBill() {
+
+        //get balance from bank check if enough to pay
+        //if balance is enough then call func from bank to deduce the bill amount from balance
+        // and change isPaid to true as well as sending the deducted amount to the water company
+        //else print error message saying the balance is not enough
+
+        //t.transferMoney(this.waterMeterID,amnt);
+
 
     }
-
-
 }
