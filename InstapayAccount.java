@@ -53,8 +53,8 @@ class BankAccount extends InstapayAccount{
     public BankAccount() {}
 
 
-    public boolean processMobileNumberVerification(String mobileNumber){
-        return bank.verifyMobileNumber(mobileNumber);
+    public boolean processMobileNumberVerification(String accountNumber, String mobileNumber){
+        return bank.verifyMobileNumber(accountNumber, mobileNumber);
     }
 
     @Override

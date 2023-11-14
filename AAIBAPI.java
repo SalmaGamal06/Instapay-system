@@ -1,17 +1,17 @@
 import java.util.ArrayList;
 
-public class QNBAPI {
-    private ArrayList<QNBAccount> accounts;
+public class AAIBAPI {
+    private ArrayList<AAIBAccount> accounts;
 
-    public QNBAPI()
+    public AAIBAPI()
     {
-        ArrayList<QNBAccount> qnbAccounts = new ArrayList<>();
+        ArrayList<AAIBAccount> qnbAccounts = new ArrayList<>();
 
-        QNBAccount a1 = new QNBAccount("999", "Salma", "1234567", 10000);
-        QNBAccount a2 = new QNBAccount("888", "Laila", "1234569", 73000);
-        QNBAccount a3 = new QNBAccount("432", "Asma", "1234561", 12000);
+        AAIBAccount a1 = new AAIBAccount("999", "Salma", "1234567", 10000);
+        AAIBAccount a2 = new AAIBAccount("888", "Laila", "1234569", 73000);
+        AAIBAccount a3 = new AAIBAccount("432", "Asma", "1234561", 12000);
 
-        qnbAccounts.add(a1);    
+        qnbAccounts.add(a1);
         qnbAccounts.add(a2);
         qnbAccounts.add(a3);
 
@@ -21,27 +21,27 @@ public class QNBAPI {
     public boolean verifyClient( String accountNumber, String mobileNumber) {
         if (verifyAccount(accountNumber))
         {
-            QNBAccount targetAccount = getAccount(accountNumber);
+            AAIBAccount targetAccount = getAccount(accountNumber);
             return  targetAccount!= null && targetAccount.getMobileNumber().equals(mobileNumber);
         }
         return false;
     }
 
     public boolean verifyAccount(String accountNumber) {
-        QNBAccount account = getAccount(accountNumber);
+        AAIBAccount account = getAccount(accountNumber);
         return account != null;
     }
 
     public double getBalance(String accountNumber) {
-        QNBAccount account = getAccount(accountNumber);
+        AAIBAccount account = getAccount(accountNumber);
         if (account != null)
             return account.getBalance();
 
         return 0;
     }
 
-    private QNBAccount getAccount(String accountNumber) {
-        for (QNBAccount account : accounts) {
+    private AAIBAccount getAccount(String accountNumber) {
+        for (AAIBAccount account : accounts) {
             if (account.getAccountNumber().equals(accountNumber)) {
                 return account;
             }
@@ -50,22 +50,23 @@ public class QNBAPI {
     }
 
     public boolean withdrawal(String accountNumber, double amount) {
-        QNBAccount account = getAccount(accountNumber);
+        AAIBAccount account = getAccount(accountNumber);
         return account != null && account.withdraw(amount);
     }
 
     public boolean deposit(String accountNumber, double amount) {
-        QNBAccount account = getAccount(accountNumber);
+        AAIBAccount account = getAccount(accountNumber);
         return account != null && account.deposit(amount);
     }
 }
-class QNBAccount{
+
+class AAIBAccount{
     private String accountNumber;
     private String name;
     private String mobileNumber;
     private double balance;
 
-    public QNBAccount(String accountNumber, String name, String mobileNumber, double balance) {
+    public AAIBAccount(String accountNumber, String name, String mobileNumber, double balance) {
         this.accountNumber = accountNumber;
         this.name = name;
         this.mobileNumber = mobileNumber;
@@ -104,6 +105,4 @@ class QNBAccount{
         return false;
     }
 }
-
-
 

@@ -1,11 +1,10 @@
 public interface BankService{
 
     public boolean verifyBankAccount(String accountNumber);
-    public boolean verifyMobileNumber(String accountNumber);
+
+    boolean verifyMobileNumber(String accountNumber, String mobileNumber);
 
     public double getBalance(String accountNumber);
-
-    public boolean checkBalance(String accountNumber, double amount);
 
     public boolean withdrawal(String accountNumber, double amount);
 
@@ -22,18 +21,13 @@ class NEBService implements BankService{
     }
 
     @Override
-    public boolean verifyMobileNumber(String mobileNumber) {
-        return neb.verifyClient(mobileNumber);
+    public boolean verifyMobileNumber(String accountNumber, String mobileNumber) {
+        return neb.verifyClient(accountNumber, mobileNumber);
     }
 
     @Override
     public double getBalance(String accountNumber) {
         return neb.getBalance(accountNumber);
-    }
-
-    @Override
-    public boolean checkBalance(String accountNumber, double amount) {
-        return neb.checkBalance(accountNumber, amount);
     }
 
     @Override
@@ -58,8 +52,8 @@ class QNBService implements BankService{
     }
 
     @Override
-    public boolean verifyMobileNumber(String mobileNumber) {
-        return qnb.verifyClient(mobileNumber);
+    public boolean verifyMobileNumber(String accountNumber, String mobileNumber) {
+        return qnb.verifyClient(accountNumber, mobileNumber);
     }
 
     @Override
@@ -67,10 +61,6 @@ class QNBService implements BankService{
         return qnb.getBalance(accountNumber);
     }
 
-    @Override
-    public boolean checkBalance(String accountNumber, double amount) {
-        return qnb.checkBalance(accountNumber, amount);
-    }
 
     @Override
     public boolean withdrawal(String accountNumber, double amount) {
@@ -82,4 +72,37 @@ class QNBService implements BankService{
         return qnb.deposit(accountNumber,amount);
     }
 }
+
+
+class AAIBService implements BankService{
+    private AAIBAPI aaib;
+
+
+    @Override
+    public boolean verifyBankAccount(String accountNumber) {
+        return  aaib.verifyAccount(accountNumber);
+    }
+
+    @Override
+    public boolean verifyMobileNumber(String accountNumber, String mobileNumber) {
+        return aaib.verifyClient(accountNumber, mobileNumber);
+    }
+
+    @Override
+    public double getBalance(String accountNumber) {
+        return aaib.getBalance(accountNumber);
+    }
+
+
+    @Override
+    public boolean withdrawal(String accountNumber, double amount) {
+        return aaib.withdrawal( accountNumber,amount);
+    }
+
+    @Override
+    public boolean deposit(String accountNumber, double amount) {
+        return aaib.deposit(accountNumber,amount);
+    }
+}
+
 

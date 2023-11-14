@@ -18,26 +18,18 @@ public class NEBAPI {
         this.accounts = nebAccounts;
     }
 
-    public boolean verifyClient(String mobileNumber) {
-        String mobile;
-        for (NEBAccount account : accounts) {
-            mobile = account.getMobileNumber();
-            if (mobile.equals(mobileNumber)) {
-                return true;
-            }
+    public boolean verifyClient(String accountNumber, String mobileNumber) {
+        if (verifyAccount(accountNumber))
+        {
+            NEBAccount targetAccount = getAccount(accountNumber);
+            return  targetAccount!= null && targetAccount.getMobileNumber().equals(mobileNumber);
         }
         return false;
     }
 
     public boolean verifyAccount(String accountNumber) {
-        String mobile;
-        for (NEBAccount account : accounts) {
-            mobile = account.getMobileNumber();
-            if (mobile.equals(accountNumber)) {
-                return true;
-            }
-        }
-        return false;
+        NEBAccount account = getAccount(accountNumber);
+        return account != null;
     }
 
     public double getBalance(String accountNumber) {
@@ -48,10 +40,6 @@ public class NEBAPI {
         return 0;
     }
 
-    public boolean checkBalance(String accountNumber, double amount) {
-        NEBAccount account = getAccount(accountNumber);
-        return account != null && account.getBalance() >= amount;
-    }
 
     private NEBAccount getAccount(String accountNumber) {
         for (NEBAccount account : accounts) {
