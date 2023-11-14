@@ -37,7 +37,6 @@ public abstract class InstapayAccount {
         t.strategy.transferMoney(r,a);
     }
 
-    public abstract double inquireBalance(String accountNumber);
 }
 
 class BankAccount extends InstapayAccount{
@@ -66,13 +65,21 @@ class BankAccount extends InstapayAccount{
 
 
 class WalletAccount extends InstapayAccount{
-    private WalletProvider wallet;
-    String PhoneNumber;
-    public boolean processWalletVerification(String mobileNumber){return true;}
+    WalletProvider wallet;
 
+    String mobileNumber;
+
+    public WalletAccount(WalletProvider wallet) {
+        this.wallet = wallet;
+    }
+
+    public boolean processWalletVerification(String mobileNumber){
+       return wallet.verifyWallet(mobileNumber);
+    }
+    public WalletAccount() {}
     @Override
     public double inquireBalance() {
-        return wallet.getBalance(this.PhoneNumber);
+        return wallet.getBalance(this.mobileNumber);
     }
 }
 

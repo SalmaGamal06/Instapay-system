@@ -22,17 +22,6 @@ public class CIB {
         System.out.println("No account exists with this mobile number");
         return 0;
     }
-    //    Function that checks if the user has sufficient funds
-    public boolean checkBalance(String mobileNumber,double amount){
-        for(CIBWalletAccount cibWalletAccount:cibWalletAccounts){
-            if(mobileNumber.equals(cibWalletAccount.getMobileNumber())){
-                if(cibWalletAccount.getBalance()>=amount){
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
     public void withdrawal(double amount){
         if (cibWalletAccount != null) {
             cibWalletAccount.withdraw(amount);
