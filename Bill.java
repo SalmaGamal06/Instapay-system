@@ -43,7 +43,8 @@ public class Bill {
     }
 
     public void excutePayment() {
-        strategy.pay();
+        strategy.pay(this.amount);
+
     }
 
 

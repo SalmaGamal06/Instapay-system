@@ -4,12 +4,7 @@ public abstract class InstapayAccount {
     Vector<Bill> bills = new Vector<>();
     Transfer t = new Transfer();
 
-    public double inquireBalance(){
-
-        double balance = 0;
-        //request balance firm bank/wallet provider and return the balance
-        return balance;
-    }
+    public abstract double inquireBalance();
     public void addBill(BillStrategy s){
         Bill b = new Bill();
         b.setBillStrategy(s);
@@ -30,7 +25,11 @@ public abstract class InstapayAccount {
         }
         else if(bills.contains(b)){
             b.excutePayment();
+
+            //check if the payment is done successfully fist
+            // can achieve by changing excutePayment return value to bool
             bills.remove(b);
+
         }
     }
     public void transaction(TransferStrategy s, String r, double a){
@@ -42,6 +41,7 @@ public abstract class InstapayAccount {
 }
 
 class BankAccount extends InstapayAccount{
+    String  bankAccountNumber;
     BankService bank;
 
     public BankAccount(BankService bank) {
@@ -51,14 +51,28 @@ class BankAccount extends InstapayAccount{
     public boolean processBankAccountVerification(String accountNumber){
              return bank.verifyBankAccount(accountNumber);
     }
+    public BankAccount() {}
+
 
     public boolean processMobileNumberVerification(String mobileNumber){
         return bank.verifyMobileNumber(mobileNumber);
     }
 
     @Override
-    public double inquireBalance(String accountNumber) {
-        return bank.getBalance(accountNumber);
+    public double inquireBalance() {
+        return bank.getBalance(this.bankAccountNumber);
+    }
+}
+
+
+class WalletAccount extends InstapayAccount{
+    private WalletProvider wallet;
+    String PhoneNumber;
+    public boolean processWalletVerification(String mobileNumber){return true;}
+
+    @Override
+    public double inquireBalance() {
+        return wallet.getBalance(this.PhoneNumber);
     }
 }
 

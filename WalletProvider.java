@@ -2,6 +2,8 @@ public interface WalletProvider {
     public boolean verifyWallet(String mobileNumber);
     public double getBalance(String mobileNumber);
     public boolean checkBalance(String mobileNumber,double amount);
+    public double getBalance(String mobileNumber);
+    public boolean checkBalance(double balance);
     public void withdrawal(double amount);
     public void deposit(double amount);
 
@@ -20,9 +22,11 @@ abstract class VodafoneCashProvider implements WalletProvider{
     public boolean checkBalance(String mobileNumber,double amount) {
         return vodafoneCash.checkBalance(mobileNumber,amount);
     }
+    @Override
     public void withdrawal(double amount){
         vodafoneCash.withdrawal(amount);
     }
+    @Override
     public void deposit(double amount){
         vodafoneCash.deposit(amount);
     }
