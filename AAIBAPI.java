@@ -7,9 +7,9 @@ public class AAIBAPI {
     {
         ArrayList<AAIBAccount> qnbAccounts = new ArrayList<>();
 
-        AAIBAccount a1 = new AAIBAccount("999", "Salma", "1234567", 10000);
-        AAIBAccount a2 = new AAIBAccount("888", "Laila", "1234569", 73000);
-        AAIBAccount a3 = new AAIBAccount("432", "Asma", "1234561", 12000);
+        AAIBAccount a1 = new AAIBAccount("999", "Salma", "01040420022", 10000);
+        AAIBAccount a2 = new AAIBAccount("888", "Laila", "01202021001", 73000);
+        AAIBAccount a3 = new AAIBAccount("432", "Asmaa", "01060931171", 12000);
 
         qnbAccounts.add(a1);
         qnbAccounts.add(a2);

@@ -64,7 +64,12 @@ class FileStorage implements Storage<User>{
     public boolean add(User user) throws IOException {
         try {
             FileWriter writer = new FileWriter("users.txt", true);
-            writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber()+" "+ user.getTypeOfInstapayAccount() + "\n");
+            if(user.getTypeOfInstapayAccount().equals("Bank")){
+                writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber()+" "+ user.getTypeOfInstapayAccount()+" "+ user.getProvider()+" "+user.getBankAccountNumber()+"\n");
+            }
+            else {
+                writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber() + " " + user.getTypeOfInstapayAccount() + " " + user.getProvider() + "\n");
+            }
             writer.close();
             return true;
         } catch (IOException e) {
@@ -81,7 +86,7 @@ class FileStorage implements Storage<User>{
             while ((line = bufferedReader.readLine()) != null) {
                 String[] words = line.split(" ");
                 if (words[0].equals(uniqueIdentifier)) {
-                    User user = new User(words[0], words[1], words[2], words[3]);
+                    User user = new User(words[0], words[1], words[2], words[3], words[4]);
                     return user;
                 }
             }
@@ -99,7 +104,7 @@ class FileStorage implements Storage<User>{
         try {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] words = line.split(" ");
-                User user = new User(words[0], words[1], words[2], words[3]);
+                User user = new User(words[0], words[1], words[2], words[3], words[4]);
                 users.add(user);
             }
             return users;

@@ -1,12 +1,15 @@
 public interface WalletProvider {
     public boolean verifyWallet(String mobileNumber);
     public double getBalance(String mobileNumber);
-    public void withdrawal(double amount);
-    public void deposit(double amount);
+    public boolean withdrawal(double amount);
+    public boolean deposit(double amount);
 
 }
 class VodafoneCashProvider implements WalletProvider{
     private VodafoneCash vodafoneCash;
+    public VodafoneCashProvider(VodafoneCash vodafoneCash) {
+        this.vodafoneCash = vodafoneCash;
+    }
     @Override
     public boolean verifyWallet(String mobileNumber){
 
@@ -18,17 +21,20 @@ class VodafoneCashProvider implements WalletProvider{
         return vodafoneCash.getBalance(mobileNumber);
     }
     @Override
-    public void withdrawal(double amount){
-        vodafoneCash.withdrawal(amount);
+    public boolean withdrawal(double amount){
+        return vodafoneCash.withdrawal(amount);
     }
     @Override
-    public void deposit(double amount){
-        vodafoneCash.deposit(amount);
+    public boolean deposit(double amount){
+        return vodafoneCash.deposit(amount);
     }
 }
 
 class CIBWalletProvider implements WalletProvider{
     private CIB cib;
+    public CIBWalletProvider(CIB cib) {
+        this.cib = cib;
+    }
     @Override
     public boolean verifyWallet(String mobileNumber){
 
@@ -40,18 +46,21 @@ class CIBWalletProvider implements WalletProvider{
         return cib.getBalance(mobileNumber);
     }
     @Override
-    public void withdrawal(double amount){
-        cib.withdrawal(amount);
+    public boolean withdrawal(double amount){
+        return cib.withdrawal(amount);
     }
     @Override
-    public void deposit(double amount){
-        cib.deposit(amount);
+    public boolean deposit(double amount){
+        return cib.deposit(amount);
     }
 
 }
 
-abstract class FawryWalletProvider implements WalletProvider{
+class FawryWalletProvider implements WalletProvider{
     private Fawry fawry;
+    public FawryWalletProvider(Fawry fawry) {
+        this.fawry = fawry;
+    }
     @Override
     public boolean verifyWallet(String mobileNumber){
         return fawry.verifyWallet(mobileNumber);
@@ -62,12 +71,12 @@ abstract class FawryWalletProvider implements WalletProvider{
         return fawry.getBalance(mobileNumber);
     }
     @Override
-    public void withdrawal(double amount){
-        fawry.withdrawal(amount);
+    public boolean withdrawal(double amount){
+        return fawry.withdrawal(amount);
     }
     @Override
-    public void deposit(double amount){
-        fawry.deposit(amount);
+    public boolean deposit(double amount){
+        return fawry.deposit(amount);
     }
 
 }

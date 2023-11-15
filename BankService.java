@@ -14,6 +14,9 @@ public interface BankService{
 class NEBService implements BankService{
     private NEBAPI neb;
 
+    public NEBService(NEBAPI neb) {
+        this.neb = neb;
+    }
 
     @Override
     public boolean verifyBankAccount(String accountNumber) {
@@ -44,7 +47,9 @@ class NEBService implements BankService{
 
 class QNBService implements BankService{
     private QNBAPI qnb;
-
+    public QNBService(QNBAPI qnb) {
+        this.qnb = qnb;
+    }
 
     @Override
     public boolean verifyBankAccount(String accountNumber) {
@@ -76,7 +81,9 @@ class QNBService implements BankService{
 
 class AAIBService implements BankService{
     private AAIBAPI aaib;
-
+    public AAIBService(AAIBAPI aaib) {
+        this.aaib = aaib;
+    }
 
     @Override
     public boolean verifyBankAccount(String accountNumber) {

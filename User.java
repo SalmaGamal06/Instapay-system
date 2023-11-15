@@ -7,13 +7,44 @@ public class User {
     private String password;
     private String mobileNumber;
     private InstapayAccount instapayAccount;
+    private BankAccount bankAccount;
+    private WalletAccount walletAccount;
     private String provider;
+    private String BankAccountNumber;
 
     public User(String userName, String password, String mobileNumber, String accountType, String provider) {
         this.userName = userName;
         this.password = password;
         this.mobileNumber = mobileNumber;
-        setInstapayAccount(accountType,provider);
+        this.provider = provider;
+        if(accountType.equals("Bank")){
+            if(provider.equals("NEB")) {
+                this.instapayAccount = new BankAccount(new NEBService(new NEBAPI()));
+                this.bankAccount = new BankAccount(new NEBService(new NEBAPI()));
+            }
+            else if(provider.equals("QNB")){
+                this.instapayAccount = new BankAccount(new QNBService(new QNBAPI()));
+                this.bankAccount = new BankAccount(new QNBService(new QNBAPI()));
+            }
+            else if(provider.equals("AAIB")){
+                this.instapayAccount = new BankAccount(new AAIBService(new AAIBAPI()));
+                this.bankAccount = new BankAccount(new AAIBService(new AAIBAPI()));
+            }
+        }
+        else if(accountType.equals("Wallet")){
+            if(provider.equals("Vodafone")){
+                this.instapayAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()));
+                this.walletAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()));
+            }
+            else if(provider.equals("CIB")){
+                this.instapayAccount = new WalletAccount(new CIBWalletProvider(new CIB()));
+                this.walletAccount = new WalletAccount(new CIBWalletProvider(new CIB()));
+            }
+            else if(provider.equals("Fawry")){
+                this.instapayAccount = new WalletAccount(new FawryWalletProvider(new Fawry()));
+                this.walletAccount = new WalletAccount(new FawryWalletProvider(new Fawry()));
+            }
+        }
     }
     public String getUserName() {
         return userName;
@@ -28,27 +59,24 @@ public class User {
         if(instapayAccount instanceof BankAccount){return "Bank";}
             return "Wallet";
     }
-    public void setInstapayAccountAndProvider(String accountType,String provider) {
-        if(accountType.equals("Bank")){
-            if(provider.equals("NEB")) {
-                this.instapayAccount = new BankAccount(new NEBService());
-            }
-            else if(provider.equals("QNB")){
-                this.instapayAccount = new BankAccount(new QNBService());
-            }
-        }
-        else if(accountType.equals("Wallet")){
-            if(provider.equals("Vodafone")){
-//                this.instapayAccount = new WalletAccount(new VodafoneCashProvider());
-            }
-            else if(provider.equals("CIB")){
-//                this.instapayAccount = new WalletAccount(new CIBWalletProvider());
-            }
-            else if(provider.equals("Fawry")){
-//                this.instapayAccount = new WalletAccount(new FawryProvider());
-            }
-            this.instapayAccount = new WalletAccount();
-        }
+    public InstapayAccount getInstapayAccount() {
+        if(instapayAccount instanceof BankAccount){return instapayAccount;}
+            return instapayAccount;
+    }
+    public String getProvider() {
+        return provider;
+    }
+    public String getBankAccountNumber() {
+        return BankAccountNumber;
+    }
+    public BankAccount getBankAccount() {
+        return bankAccount;
+    }
+    public WalletAccount getWalletAccount() {
+        return walletAccount;
+    }
+    public void setBankAccountNumber(String bankAccountNumber) {
+        BankAccountNumber = bankAccountNumber;
     }
     public void setUserName(String userName) {
         this.userName = userName;
@@ -94,10 +122,39 @@ class Registration{
                             System.out.print("Enter your account type (Bank/Wallet): ");
                             String accountType =scanner.nextLine();
                             if(accountType.equals("Bank") || accountType.equals("Wallet")){
-                                user=new User(userName,password,mobileNumber,accountType);
-                                file.add(user);
+                                System.out.print("Enter your provider : ");
+                                String provider =scanner.nextLine();
+                                while(!provider.equals("NEB") && !provider.equals("QNB") && !provider.equals("AAIB") && !provider.equals("Vodafone") && !provider.equals("CIB") && !provider.equals("Fawry")){
+                                    System.out.println("Invalid provider");
+                                    System.out.print("Enter your provider : ");
+                                    provider =scanner.nextLine();
+                                }
+                                if(accountType.equals("Bank")) {
+                                    System.out.print("Enter your Account Number : ");
+                                    String accountNumber =scanner.nextLine();
+                                    user=new User(userName,password,mobileNumber,accountType,provider);
+                                    if(user.getBankAccount().processMobileVerification(accountNumber,user.getMobileNumber())){
+                                        user.setBankAccountNumber(accountNumber);
+                                        file.add(user);
+                                    }
+                                    else{
+                                        System.out.println("Invalid account number");
+                                        System.out.println("Registration failed, Try again later");
+                                        return;
+                                    }
+                                }
+                                else {
+                                    user=new User(userName,password,mobileNumber,accountType,provider);
+                                    if(user.getWalletAccount().processWalletVerification(user.getMobileNumber())){
+                                        file.add(user);
+                                    }
+                                    else{
+                                        System.out.println("Invalid Wallet");
+                                        System.out.println("Registration failed, Try again later");
+                                        return;
+                                    }
+                                }
                                 System.out.println("Registration done successfully");
-
                             }
                             else{
                                 System.out.println("Invalid account type");
@@ -105,8 +162,38 @@ class Registration{
                                     System.out.print("Enter your account type (Bank/Wallet): ");
                                     accountType =scanner.nextLine();
                                     if(accountType.equals("Bank") || accountType.equals("Wallet")){
-                                        user=new User(userName,password,mobileNumber,accountType);
-                                        file.add(user);
+                                        System.out.print("Enter your provider : ");
+                                        String provider =scanner.nextLine();
+                                        while(!provider.equals("NEB") && !provider.equals("QNB") && !provider.equals("AAIB") && !provider.equals("Vodafone") && !provider.equals("CIB") && !provider.equals("Fawry")){
+                                            System.out.println("Invalid provider");
+                                            System.out.print("Enter your provider : ");
+                                            provider =scanner.nextLine();
+                                        }
+                                        if(accountType.equals("Bank")) {
+                                            System.out.print("Enter your Account Number : ");
+                                            String accountNumber =scanner.nextLine();
+                                            user=new User(userName,password,mobileNumber,accountType,provider);
+                                            if(user.getBankAccount().processMobileVerification(accountNumber,user.getMobileNumber())){
+                                                user.setBankAccountNumber(accountNumber);
+                                                file.add(user);
+                                            }
+                                            else{
+                                                System.out.println("Invalid account number");
+                                                System.out.println("Registration failed, Try again later");
+                                                return;
+                                            }
+                                        }
+                                        else {
+                                            user=new User(userName,password,mobileNumber,accountType,provider);
+                                            if(user.getWalletAccount().processWalletVerification(user.getMobileNumber())){
+                                                file.add(user);
+                                            }
+                                            else{
+                                                System.out.println("Invalid Wallet");
+                                                System.out.println("Registration failed, Try again later");
+                                                return;
+                                            }
+                                        }
                                         System.out.println("Registration done successfully");
                                         break;
                                     }

@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 
 public class CIB {
-    private ArrayList<CIBWalletAccount> cibWalletAccounts;
+    private final ArrayList<CIBWalletAccount> cibWalletAccounts=new ArrayList<CIBWalletAccount>(){{
+        add(new CIBWalletAccount("Salma","0123456789",1000));
+        add(new CIBWalletAccount("Laila","0123456788",2000));
+        add(new CIBWalletAccount("Asmaa","0123456787",3000));
+    }};
     CIBWalletAccount cibWalletAccount;
     public boolean verifyWallet(String mobileNumber) {
         String mobile;
@@ -22,20 +26,21 @@ public class CIB {
         System.out.println("No account exists with this mobile number");
         return 0;
     }
-    public void withdrawal(double amount){
+    public boolean withdrawal(double amount){
         if (cibWalletAccount != null) {
-            cibWalletAccount.withdraw(amount);
+            return cibWalletAccount.withdraw(amount);
         } else {
             System.out.println("No CIB wallet account account selected for withdrawal.");
         }
-
+        return false;
     }
-    public void deposit(double amount){
+    public boolean deposit(double amount){
         if (cibWalletAccount != null) {
-            cibWalletAccount.deposit(amount);
+            return cibWalletAccount.deposit(amount);
         } else {
             System.out.println("No CIB wallet account selected for deposit.");
         }
+        return false;
     }
 
 }

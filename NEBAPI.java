@@ -7,9 +7,9 @@ public class NEBAPI {
     {
         ArrayList<NEBAccount> nebAccounts = new ArrayList<>();
 
-        NEBAccount a1 = new NEBAccount("123", "Salma", "1234567", 6000);
-        NEBAccount a2 = new NEBAccount("234", "Laila", "1234569", 7000);
-        NEBAccount a3 = new NEBAccount("345", "Asma", "1234561", 6600);
+        NEBAccount a1 = new NEBAccount("123", "Salma", "01040420022", 6000);
+        NEBAccount a2 = new NEBAccount("234", "Laila", "01202021001", 7000);
+        NEBAccount a3 = new NEBAccount("345", "Asmaa", "01060931171", 6600);
 
         nebAccounts.add(a1);
         nebAccounts.add(a2);

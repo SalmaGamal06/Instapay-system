@@ -1,7 +1,11 @@
 import java.util.ArrayList;
 
 public class Fawry {
-    private ArrayList<FawryWalletAccount> FawryWalletAccounts;
+    private final ArrayList<FawryWalletAccount> FawryWalletAccounts = new ArrayList<FawryWalletAccount>(){{
+        add(new FawryWalletAccount("Salma","01234567891",1000));
+        add(new FawryWalletAccount("Laila","01234567881",2000));
+        add(new FawryWalletAccount("Asmaa","01234567871",3000));
+    }};
     FawryWalletAccount fawryWalletAccount;
     public boolean verifyWallet(String mobileNumber) {
         String mobile;
@@ -23,20 +27,21 @@ public class Fawry {
         return 0;
     }
 
-    public void withdrawal(double amount){
+    public boolean withdrawal(double amount){
         if (fawryWalletAccount != null) {
-            fawryWalletAccount.withdraw(amount);
+            return fawryWalletAccount.withdraw(amount);
         } else {
             System.out.println("No Fawry wallet account account selected for withdrawal.");
         }
-
+        return false;
     }
-    public void deposit(double amount){
+    public boolean deposit(double amount){
         if (fawryWalletAccount != null) {
-            fawryWalletAccount.deposit(amount);
+            return fawryWalletAccount.deposit(amount);
         } else {
             System.out.println("No Fawry wallet account selected for deposit.");
         }
+        return false;
     }
 }
 class FawryWalletAccount{
