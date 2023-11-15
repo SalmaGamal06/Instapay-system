@@ -74,7 +74,7 @@ class FileStorage implements Storage<User> {
             if (user.getTypeOfInstapayAccount().equals("Bank")) {
                 writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber() + " " + user.getTypeOfInstapayAccount() + " " + user.getProvider() + " " + user.getBankAccountNumber() + "\n");
             } else {
-                writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber() + " " + user.getTypeOfInstapayAccount() + " " + user.getProvider() + "0" + "\n");
+                writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber() + " " + user.getTypeOfInstapayAccount() + " " + user.getProvider() + " 0" + "\n");
             }
             writer.close();
             return true;

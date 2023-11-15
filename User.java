@@ -115,10 +115,7 @@ public class User {
     }
 
     public String getBankAccountNumber() {
-        if (instapayAccount instanceof BankAccount) {
-            return BankAccountNumber;
-        }
-        return "0";
+        return BankAccountNumber;
     }
 
     public BankAccount getBankAccount() {
@@ -191,6 +188,7 @@ class Registration {
                                     String accountNumber = scanner.nextLine();
                                     user = new User(userName, password, mobileNumber, accountType, provider, accountNumber);
                                     if (user.getBankAccount().processMobileVerification(accountNumber, user.getMobileNumber())) {
+                                        user.setBankAccountNumber(accountNumber);
                                         file.add(user);
                                     } else {
                                         System.out.println("Invalid account number");
@@ -227,6 +225,7 @@ class Registration {
                                             String accountNumber = scanner.nextLine();
                                             user = new User(userName, password, mobileNumber, accountType, provider, accountNumber);
                                             if (user.getBankAccount().processMobileVerification(accountNumber, user.getMobileNumber())) {
+                                                user.setBankAccountNumber(accountNumber);
                                                 file.add(user);
                                             } else {
                                                 System.out.println("Invalid account number");

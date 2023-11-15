@@ -61,7 +61,7 @@ public class Main {
                             System.out.println("Bill not paid");
                         }
                     } else if (choice3 == 2) {
-                        System.out.println("Electric bill amount: " + user.getElectricBill().getAmount());
+                        System.out.println("Gas bill amount: " + user.getGasBill().getAmount());
                         System.out.println("Will you pay the bill?");
                         System.out.println("1- Yes");
                         System.out.println("2- No");
@@ -73,7 +73,7 @@ public class Main {
                             System.out.println("Bill not paid");
                         }
                     } else if (choice3 == 3) {
-                        System.out.println("Electric bill amount: " + user.getElectricBill().getAmount());
+                        System.out.println("Water bill amount: " + user.getWaterBill().getAmount());
                         System.out.println("Will you pay the bill?");
                         System.out.println("1- Yes");
                         System.out.println("2- No");

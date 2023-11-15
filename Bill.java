@@ -33,9 +33,13 @@ class ElectricBill extends Bill {
 
     @Override
     public void payBill(User s) throws FileNotFoundException {
-        t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
-        System.out.println("Electric bill paid successfully, amount paid: " + amount);
-        amount = 0;
+        if (amount > 0) {
+            t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
+            System.out.println("Electric bill paid successfully, amount paid: " + amount);
+            amount = 0;
+        } else {
+            System.out.println("No bills to pay");
+        }
     }
 }
 
@@ -45,9 +49,13 @@ class GasBill extends Bill {
 
     @Override
     public void payBill(User s) throws FileNotFoundException {
-        t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
-        System.out.println("Electric bill paid successfully, amount paid: " + amount);
-        amount = 0;
+        if (amount > 0) {
+            t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
+            System.out.println("Electric bill paid successfully, amount paid: " + amount);
+            amount = 0;
+        } else {
+            System.out.println("No bills to pay");
+        }
     }
 }
 
@@ -57,8 +65,12 @@ class WaterBill extends Bill {
 
     @Override
     public void payBill(User s) throws FileNotFoundException {
-        t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
-        System.out.println("Electric bill paid successfully, amount paid: " + amount);
-        amount = 0;
+        if (amount > 0) {
+            t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
+            System.out.println("Electric bill paid successfully, amount paid: " + amount);
+            amount = 0;
+        } else {
+            System.out.println("No bills to pay");
+        }
     }
 }
