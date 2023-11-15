@@ -1,3 +1,6 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class NEBAPI {
@@ -73,6 +76,7 @@ class NEBAccount{
         this.name = name;
         this.mobileNumber = mobileNumber;
         this.balance = balance;
+
     }
 
     public String getAccountNumber() {
@@ -94,6 +98,7 @@ class NEBAccount{
     public boolean withdraw(double amount){
         if(balance>= amount) {
             balance -= amount;
+            System.out.println("We're withdrawing "+balance);
             return true;
         }
         return false;

@@ -77,7 +77,7 @@ class FawryWalletAccount{
     public boolean withdraw(double amount){
         if(balance>= amount) {
             balance -= amount;
-            System.out.println("The amount "+amount+"EGP"+"has been withdrawn successfully from your Fawry wallet account");
+            System.out.println("The amount "+amount+"EGP "+"has been withdrawn successfully from your Fawry wallet account");
             return true;
         }
         else{
@@ -89,7 +89,6 @@ class FawryWalletAccount{
     public boolean deposit(double amount){
         if(amount>0){
             balance+=amount;
-            System.out.println("The amount "+amount+"EGP"+"has been deposited successfully into your Fawry wallet account");
             return true;
         }
         return false;

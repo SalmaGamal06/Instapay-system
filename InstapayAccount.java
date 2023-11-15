@@ -10,7 +10,9 @@ class BankAccount extends InstapayAccount {
         this.bank = bank;
         this.bankAccountNumber = bankAccountNumber;
     }
-
+    public BankService getBankService(){
+        return this.bank;
+    }
     public boolean processAccountVerification(String accountNumber) {
         return bank.verify(accountNumber);
     }
@@ -35,6 +37,9 @@ class WalletAccount extends InstapayAccount {
     public WalletAccount(WalletProvider wallet, String mobileNumber) {
         this.wallet = wallet;
         this.mobileNumber = mobileNumber;
+    }
+    public WalletProvider getWalletProvider(){
+        return this.wallet;
     }
 
     public boolean processWalletVerification(String mobileNumber) {

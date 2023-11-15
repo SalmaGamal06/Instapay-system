@@ -36,50 +36,49 @@ public class User {
         this.password = password;
         this.mobileNumber = mobileNumber;
         this.provider = provider;
+        this.BankAccountNumber = BankAccountNumber;
         if (accountType.equals("Bank")) {
             if (provider.equals("NEB")) {
-                this.instapayAccount = new BankAccount(new NEBService(new NEBAPI()), BankAccountNumber);
-                this.bankAccount = new BankAccount(new NEBService(new NEBAPI()), BankAccountNumber);
+                BankAccount bankAccount =new BankAccount(new NEBService(new NEBAPI()), BankAccountNumber) ;
+                this.instapayAccount = bankAccount;
+                this.bankAccount = bankAccount;
             } else if (provider.equals("QNB")) {
-                this.instapayAccount = new BankAccount(new QNBService(new QNBAPI()), BankAccountNumber);
-                this.bankAccount = new BankAccount(new QNBService(new QNBAPI()), BankAccountNumber);
+                BankAccount bankAccount = new BankAccount(new QNBService(new QNBAPI()), BankAccountNumber);
+                this.instapayAccount = bankAccount;
+                this.bankAccount = bankAccount;
             } else if (provider.equals("AAIB")) {
-                this.instapayAccount = new BankAccount(new AAIBService(new AAIBAPI()), BankAccountNumber);
-                this.bankAccount = new BankAccount(new AAIBService(new AAIBAPI()), BankAccountNumber);
+                BankAccount bankAccount = new BankAccount(new AAIBService(new AAIBAPI()), BankAccountNumber);
+                this.instapayAccount = bankAccount;
+                this.bankAccount = bankAccount;
             }
         } else if (accountType.equals("Wallet")) {
             setBankAccountNumber("0");
             if (provider.equals("Vodafone")) {
-                this.instapayAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()), mobileNumber);
-                this.walletAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()), mobileNumber);
+                WalletAccount walletAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()), mobileNumber);
+                this.instapayAccount = walletAccount;
+                this.walletAccount = walletAccount;
             } else if (provider.equals("CIB")) {
-                this.instapayAccount = new WalletAccount(new CIBWalletProvider(new CIB()), mobileNumber);
-                this.walletAccount = new WalletAccount(new CIBWalletProvider(new CIB()), mobileNumber);
+                WalletAccount walletAccount = new WalletAccount(new CIBWalletProvider(new CIB()), mobileNumber);
+                this.instapayAccount = walletAccount;
+                this.walletAccount = walletAccount;
             } else if (provider.equals("Fawry")) {
-                this.instapayAccount = new WalletAccount(new FawryWalletProvider(new Fawry()), mobileNumber);
-                this.walletAccount = new WalletAccount(new FawryWalletProvider(new Fawry()), mobileNumber);
+                WalletAccount walletAccount = new WalletAccount(new FawryWalletProvider(new Fawry()), mobileNumber);
+                this.instapayAccount = walletAccount;
+                this.walletAccount = walletAccount;
             }
         }
     }
 
     public BankService getBankService() {
-        if (provider.equals("NEB")) {
-            return new NEBService(new NEBAPI());
-        } else if (provider.equals("QNB")) {
-            return new QNBService(new QNBAPI());
-        } else if (provider.equals("AAIB")) {
-            return new AAIBService(new AAIBAPI());
+        if (provider.equals("NEB") || provider.equals("QNB") ||provider.equals("AAIB")) {
+            return this.getBankAccount().getBankService();
         }
         return null;
     }
 
     public WalletProvider getWalletProvider() {
-        if (provider.equals("Vodafone")) {
-            return new VodafoneCashProvider(new VodafoneCash());
-        } else if (provider.equals("CIB")) {
-            return new CIBWalletProvider(new CIB());
-        } else if (provider.equals("Fawry")) {
-            return new FawryWalletProvider(new Fawry());
+        if (provider.equals("Vodafone") || provider.equals("CIB") || provider.equals("Fawry")) {
+            return this.getWalletAccount().getWalletProvider();
         }
         return null;
     }

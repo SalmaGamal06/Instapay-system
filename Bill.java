@@ -16,7 +16,7 @@ public abstract class Bill {
 
     public double generateRandomBill() {
         Random rand = new Random();
-        this.amount = Math.round(rand.nextDouble(1000) * 100.0) / 100.0;
+        this.amount = Math.round(rand.nextInt(1000) * 100.0) / 100.0;
         return amount;
     }
 

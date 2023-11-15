@@ -114,18 +114,11 @@ public class Main {
                         User recipientUser = file.read(recipient);
                         System.out.print("Enter the amount you want to transfer : ");
                         double amount = input.nextDouble();
-                        if (recipientUser.getProvider().equals("NEB")) {
-                            instapayTransfer.transferMoney(user, new NEBService(new NEBAPI()), recipient, amount);
-                        } else if (recipientUser.getProvider().equals("QNB")) {
-                            instapayTransfer.transferMoney(user, new QNBService(new QNBAPI()), recipient, amount);
-                        } else if (recipientUser.getProvider().equals("AAIB")) {
-                            instapayTransfer.transferMoney(user, new AAIBService(new AAIBAPI()), recipient, amount);
-                        } else if (recipientUser.getProvider().equals("Vodafone")) {
-                            instapayTransfer.transferMoney(user, new VodafoneCashProvider(new VodafoneCash()), recipient, amount);
-                        } else if (recipientUser.getProvider().equals("CIB")) {
-                            instapayTransfer.transferMoney(user, new CIBWalletProvider(new CIB()), recipient, amount);
-                        } else if (recipientUser.getProvider().equals("Fawry")) {
-                            instapayTransfer.transferMoney(user, new FawryWalletProvider(new Fawry()), recipient, amount);
+                        if (recipientUser.getProvider().equals("NEB") || recipientUser.getProvider().equals("QNB") || recipientUser.getProvider().equals("AAIB")) {
+                            instapayTransfer.transferMoney(user, user.getBankService(), recipient, amount);
+                        }
+                        else if (recipientUser.getProvider().equals("Vodafone") || recipientUser.getProvider().equals("CIB") || recipientUser.getProvider().equals("Fawry")) {
+                            instapayTransfer.transferMoney(user, user.getWalletProvider(), recipient, amount);
                         }
                     } else if (choice3 == 2) {
                         WalletTransfer walletTransfer = new WalletTransfer();
@@ -138,12 +131,8 @@ public class Main {
                         String recipient = input.next();
                         System.out.print("Enter the amount you want to transfer : ");
                         double amount = input.nextDouble();
-                        if (choice4.equals("Vodafone")) {
-                            walletTransfer.transferMoney(user, new VodafoneCashProvider(new VodafoneCash()), recipient, amount);
-                        } else if (choice4.equals("CIB")) {
-                            walletTransfer.transferMoney(user, new CIBWalletProvider(new CIB()), recipient, amount);
-                        } else if (choice4.equals("Fawry")) {
-                            walletTransfer.transferMoney(user, new FawryWalletProvider(new Fawry()), recipient, amount);
+                        if (choice4.equals("1") ||choice4.equals("2") ||choice4.equals("3")) {
+                            walletTransfer.transferMoney(user, user.getWalletProvider(), recipient, amount);
                         }
                     } else if (choice3 == 3 && user.getTypeOfInstapayAccount().equals("Bank")) {
                         BankTransfer bankTransfer = new BankTransfer();
@@ -156,12 +145,12 @@ public class Main {
                         String recipient = input.next();
                         System.out.print("Enter the amount you want to transfer : ");
                         double amount = input.nextDouble();
-                        if (choice4.equals("NEB")) {
-                            bankTransfer.transferMoney(user, new NEBService(new NEBAPI()), recipient, amount);
-                        } else if (choice4.equals("QNB")) {
-                            bankTransfer.transferMoney(user, new QNBService(new QNBAPI()), recipient, amount);
-                        } else if (choice4.equals("AAIB")) {
-                            bankTransfer.transferMoney(user, new AAIBService(new AAIBAPI()), recipient, amount);
+                        if (choice4.equals("1")) {
+                            bankTransfer.transferMoney(user, user.getBankService(), recipient, amount);
+                        } else if (choice4.equals("2")) {
+                            bankTransfer.transferMoney(user, user.getBankService(), recipient, amount);
+                        } else if (choice4.equals("3")) {
+                            bankTransfer.transferMoney(user, user.getBankService(), recipient, amount);
                         }
                     } else if (choice3 == 4) {
                         continue;

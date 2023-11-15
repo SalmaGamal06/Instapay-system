@@ -9,13 +9,11 @@ class WalletTransfer implements Transfer {
     //recipient here means mobile number
     public void transferMoney(User s, Provider recipient_provider, String recipient, double amount) throws FileNotFoundException {
         //sends the recipient the amount using phone number
-        if (s.getInstapayAccount() instanceof WalletAccount) {
-            if (s.getWalletProvider().withdrawal(s.getMobileNumber(), amount)) {
-                recipient_provider.deposit(recipient, amount);
-                System.out.println("Transfer done successfully");
-            } else {
-                System.out.println("Insufficient balance");
-            }
+        if (s.getWalletProvider().withdrawal(s.getMobileNumber(), amount)) {
+            recipient_provider.deposit(recipient, amount);
+            System.out.println("Transfer done successfully");
+        } else {
+            System.out.println("Insufficient balance");
         }
     }
 }
