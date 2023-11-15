@@ -10,10 +10,12 @@ public class QNBAPI {
         QNBAccount a1 = new QNBAccount("999", "Salma", "01040420022", 10000);
         QNBAccount a2 = new QNBAccount("888", "Laila", "01202021001", 73000);
         QNBAccount a3 = new QNBAccount("432", "Asmaa", "01060931171", 12000);
+        QNBAccount a4 = new QNBAccount("1234567810", "GasCompany", "01033333333", 1000000);
 
         qnbAccounts.add(a1);    
         qnbAccounts.add(a2);
         qnbAccounts.add(a3);
+        qnbAccounts.add(a4);
 
         this.accounts = qnbAccounts;
     }

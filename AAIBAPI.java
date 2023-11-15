@@ -10,10 +10,12 @@ public class AAIBAPI {
         AAIBAccount a1 = new AAIBAccount("999", "Salma", "01040420022", 10000);
         AAIBAccount a2 = new AAIBAccount("888", "Laila", "01202021001", 73000);
         AAIBAccount a3 = new AAIBAccount("432", "Asmaa", "01060931171", 12000);
+        AAIBAccount a4 = new AAIBAccount("1234567811", "WaterCompany", "01068649921", 1000000);
 
         qnbAccounts.add(a1);
         qnbAccounts.add(a2);
         qnbAccounts.add(a3);
+        qnbAccounts.add(a4);
 
         this.accounts = qnbAccounts;
     }

@@ -26,7 +26,16 @@ public class VodafoneCash {
         System.out.println("No account exists with this mobile number");
         return 0;
     }
-    public boolean withdrawal(double amount){
+    private VodafoneCashAccount getMobile(String mobile) {
+        for (VodafoneCashAccount account : vodafoneAccounts) {
+            if (account.getMobileNumber().equals(mobile)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    public boolean withdrawal(String mobile,double amount){
+        VodafoneCashAccount vodafoneCashAccount = getMobile(mobile);
         if (vodafoneCashAccount != null) {
             return vodafoneCashAccount.withdraw(amount);
         } else {
@@ -34,7 +43,8 @@ public class VodafoneCash {
             return false;
         }
     }
-    public boolean deposit(double amount){
+    public boolean deposit(String mobile,double amount){
+        VodafoneCashAccount vodafoneCashAccount = getMobile(mobile);
         if (vodafoneCashAccount != null) {
             return vodafoneCashAccount.deposit(amount);
         } else {

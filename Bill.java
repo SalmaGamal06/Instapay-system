@@ -1,66 +1,65 @@
-import java.util.UUID;
+import java.io.FileNotFoundException;
 import java.util.Random;
 
 public abstract class Bill {
+    public Bill() {
+        generateRandomBill();
+    }
 
+    String CompanyBankAccountNumber;
+    String bank;
     BankTransfer t = new BankTransfer();
-
-    private double amount;
-
+    protected double amount;
 
     public double getAmount() {
         return amount;
     }
 
-
-    public void generateRandomBill() {
+    public double generateRandomBill() {
         Random rand = new Random();
-        this.amount = rand.nextDouble(1000);
+        this.amount = Math.round(rand.nextDouble(1000) * 100.0) / 100.0;
+        return amount;
     }
-    abstract void payBill();
-}
 
+    abstract void payBill(InstapayAccount s) throws FileNotFoundException;
 
-class ElectricBill extends Bill{
-    String electricCompanyBankAccountNumber;
-    @Override
-    public void payBill() {
-
+    public void updateBillAmount() {
+        this.amount += generateRandomBill();
     }
 }
 
-class GasBill extends Bill{
-    String gasCompanyBankAccountNumber;
-
-
+class ElectricBill extends Bill {
+    String CompanyBankAccountNumber = "123456789";
+    String bank = "NEB";
 
     @Override
-    public void payBill() {
-
-        //get balance from bank check if enough to pay
-        //if balance is enough then call func from bank to deduce the bill amount from balance
-        // and change isPaid to true as well as sending the deducted amount to the Gas company
-        //else print error message saying the balance is not enough
-
-        //t.transferMoney(this.gasMeterID,amnt);
-
+    public void payBill(InstapayAccount s) throws FileNotFoundException {
+        t.transferMoney(s, CompanyBankAccountNumber, amount);
+        System.out.println("Electric bill paid successfully, amount paid: " + amount);
+        amount = 0;
     }
 }
 
-class WaterBill extends Bill{
-    String waterCompanyBankAccountNumber;
-
+class GasBill extends Bill {
+    String CompanyBankAccountNumber = "1234567810";
+    String bank = "QNB";
 
     @Override
-    public void payBill() {
+    public void payBill(InstapayAccount s) throws FileNotFoundException {
+        t.transferMoney(s, CompanyBankAccountNumber, amount);
+        System.out.println("Electric bill paid successfully, amount paid: " + amount);
+        amount = 0;
+    }
+}
 
-        //get balance from bank check if enough to pay
-        //if balance is enough then call func from bank to deduce the bill amount from balance
-        // and change isPaid to true as well as sending the deducted amount to the water company
-        //else print error message saying the balance is not enough
+class WaterBill extends Bill {
+    String CompanyBankAccountNumber = "1234567811";
+    String bank = "AAIB";
 
-        //t.transferMoney(this.waterMeterID,amnt);
-
-
+    @Override
+    public void payBill(InstapayAccount s) throws FileNotFoundException {
+        t.transferMoney(s, CompanyBankAccountNumber, amount);
+        System.out.println("Electric bill paid successfully, amount paid: " + amount);
+        amount = 0;
     }
 }

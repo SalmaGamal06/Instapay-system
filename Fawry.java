@@ -26,8 +26,16 @@ public class Fawry {
         System.out.println("No account exists with this mobile number");
         return 0;
     }
-
-    public boolean withdrawal(double amount){
+    private FawryWalletAccount getMobile(String mobile) {
+        for (FawryWalletAccount account : FawryWalletAccounts) {
+            if (account.getMobileNumber().equals(mobile)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    public boolean withdrawal(String mobile,double amount){
+        FawryWalletAccount fawryWalletAccount = getMobile(mobile);
         if (fawryWalletAccount != null) {
             return fawryWalletAccount.withdraw(amount);
         } else {
@@ -35,7 +43,8 @@ public class Fawry {
         }
         return false;
     }
-    public boolean deposit(double amount){
+    public boolean deposit(String mobile,double amount){
+        FawryWalletAccount fawryWalletAccount = getMobile(mobile);
         if (fawryWalletAccount != null) {
             return fawryWalletAccount.deposit(amount);
         } else {

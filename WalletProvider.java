@@ -1,8 +1,8 @@
 public interface WalletProvider {
     public boolean verifyWallet(String mobileNumber);
     public double getBalance(String mobileNumber);
-    public boolean withdrawal(double amount);
-    public boolean deposit(double amount);
+    public boolean withdrawal(String mobile,double amount);
+    public boolean deposit(String mobile,double amount);
 
 }
 class VodafoneCashProvider implements WalletProvider{
@@ -21,12 +21,12 @@ class VodafoneCashProvider implements WalletProvider{
         return vodafoneCash.getBalance(mobileNumber);
     }
     @Override
-    public boolean withdrawal(double amount){
-        return vodafoneCash.withdrawal(amount);
+    public boolean withdrawal(String mobile,double amount){
+        return vodafoneCash.withdrawal(mobile,amount);
     }
     @Override
-    public boolean deposit(double amount){
-        return vodafoneCash.deposit(amount);
+    public boolean deposit(String mobile,double amount){
+        return vodafoneCash.deposit(mobile,amount);
     }
 }
 
@@ -46,12 +46,12 @@ class CIBWalletProvider implements WalletProvider{
         return cib.getBalance(mobileNumber);
     }
     @Override
-    public boolean withdrawal(double amount){
-        return cib.withdrawal(amount);
+    public boolean withdrawal(String mobile,double amount){
+        return cib.withdrawal(mobile,amount);
     }
     @Override
-    public boolean deposit(double amount){
-        return cib.deposit(amount);
+    public boolean deposit(String mobile,double amount){
+        return cib.deposit(mobile,amount);
     }
 
 }
@@ -71,12 +71,12 @@ class FawryWalletProvider implements WalletProvider{
         return fawry.getBalance(mobileNumber);
     }
     @Override
-    public boolean withdrawal(double amount){
-        return fawry.withdrawal(amount);
+    public boolean withdrawal(String mobile,double amount){
+        return fawry.withdrawal(mobile,amount);
     }
     @Override
-    public boolean deposit(double amount){
-        return fawry.deposit(amount);
+    public boolean deposit(String mobile,double amount){
+        return fawry.deposit(mobile,amount);
     }
 
 }

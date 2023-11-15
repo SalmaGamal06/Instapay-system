@@ -26,7 +26,16 @@ public class CIB {
         System.out.println("No account exists with this mobile number");
         return 0;
     }
-    public boolean withdrawal(double amount){
+    private CIBWalletAccount getMobile(String mobile) {
+        for (CIBWalletAccount account : cibWalletAccounts) {
+            if (account.getMobileNumber().equals(mobile)) {
+                return account;
+            }
+        }
+        return null;
+    }
+    public boolean withdrawal(String mobile,double amount){
+        CIBWalletAccount cibWalletAccount = getMobile(mobile);
         if (cibWalletAccount != null) {
             return cibWalletAccount.withdraw(amount);
         } else {
@@ -34,7 +43,8 @@ public class CIB {
         }
         return false;
     }
-    public boolean deposit(double amount){
+    public boolean deposit(String mobile,double amount){
+        CIBWalletAccount cibWalletAccount = getMobile(mobile);
         if (cibWalletAccount != null) {
             return cibWalletAccount.deposit(amount);
         } else {

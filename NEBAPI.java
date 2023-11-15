@@ -10,10 +10,12 @@ public class NEBAPI {
         NEBAccount a1 = new NEBAccount("123", "Salma", "01040420022", 6000);
         NEBAccount a2 = new NEBAccount("234", "Laila", "01202021001", 7000);
         NEBAccount a3 = new NEBAccount("345", "Asmaa", "01060931171", 6600);
+        NEBAccount a4 = new NEBAccount("123456789", "ElectricCompany", "01050678818", 1000000);
 
         nebAccounts.add(a1);
         nebAccounts.add(a2);
         nebAccounts.add(a3);
+        nebAccounts.add(a4);
 
         this.accounts = nebAccounts;
     }
