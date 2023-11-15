@@ -6,12 +6,13 @@ class BankAccount extends InstapayAccount {
     String bankAccountNumber;
     BankService bank;
 
-    public BankAccount(BankService bank) {
+    public BankAccount(BankService bank, String bankAccountNumber) {
         this.bank = bank;
+        this.bankAccountNumber = bankAccountNumber;
     }
 
     public boolean processAccountVerification(String accountNumber) {
-        return bank.verifyBankAccount(accountNumber);
+        return bank.verify(accountNumber);
     }
 
 
@@ -31,12 +32,13 @@ class WalletAccount extends InstapayAccount {
 
     String mobileNumber;
 
-    public WalletAccount(WalletProvider wallet) {
+    public WalletAccount(WalletProvider wallet, String mobileNumber) {
         this.wallet = wallet;
+        this.mobileNumber = mobileNumber;
     }
 
     public boolean processWalletVerification(String mobileNumber) {
-        return wallet.verifyWallet(mobileNumber);
+        return wallet.verify(mobileNumber);
     }
 
     @Override

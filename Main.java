@@ -56,7 +56,7 @@ public class Main {
                         System.out.print("Enter your choice: ");
                         int choice4 = input.nextInt();
                         if (choice4 == 1) {
-                            user.getElectricBill().payBill(user.getInstapayAccount());
+                            user.getElectricBill().payBill(user);
                         } else {
                             System.out.println("Bill not paid");
                         }
@@ -68,7 +68,7 @@ public class Main {
                         System.out.print("Enter your choice: ");
                         int choice4 = input.nextInt();
                         if (choice4 == 1) {
-                            user.getGasBill().payBill(user.getInstapayAccount());
+                            user.getGasBill().payBill(user);
                         } else {
                             System.out.println("Bill not paid");
                         }
@@ -80,7 +80,7 @@ public class Main {
                         System.out.print("Enter your choice: ");
                         int choice4 = input.nextInt();
                         if (choice4 == 1) {
-                            user.getWaterBill().payBill(user.getInstapayAccount());
+                            user.getWaterBill().payBill(user);
                         } else {
                             System.out.println("Bill not paid");
                         }
@@ -110,23 +110,59 @@ public class Main {
                         InstapayTransfer instapayTransfer = new InstapayTransfer();
                         System.out.print("Enter the username of the recipient : ");
                         String recipient = input.next();
+                        FileStorage file = new FileStorage();
+                        User recipientUser = file.read(recipient);
                         System.out.print("Enter the amount you want to transfer : ");
                         double amount = input.nextDouble();
-                        instapayTransfer.transferMoney(user.getInstapayAccount(), recipient, amount);
+                        if (recipientUser.getProvider().equals("NEB")) {
+                            instapayTransfer.transferMoney(user, new NEBService(new NEBAPI()), recipient, amount);
+                        } else if (recipientUser.getProvider().equals("QNB")) {
+                            instapayTransfer.transferMoney(user, new QNBService(new QNBAPI()), recipient, amount);
+                        } else if (recipientUser.getProvider().equals("AAIB")) {
+                            instapayTransfer.transferMoney(user, new AAIBService(new AAIBAPI()), recipient, amount);
+                        } else if (recipientUser.getProvider().equals("Vodafone")) {
+                            instapayTransfer.transferMoney(user, new VodafoneCashProvider(new VodafoneCash()), recipient, amount);
+                        } else if (recipientUser.getProvider().equals("CIB")) {
+                            instapayTransfer.transferMoney(user, new CIBWalletProvider(new CIB()), recipient, amount);
+                        } else if (recipientUser.getProvider().equals("Fawry")) {
+                            instapayTransfer.transferMoney(user, new FawryWalletProvider(new Fawry()), recipient, amount);
+                        }
                     } else if (choice3 == 2) {
                         WalletTransfer walletTransfer = new WalletTransfer();
+                        System.out.println("1- Vodafone Cash");
+                        System.out.println("2- CIB Wallet");
+                        System.out.println("3- Fawry Wallet");
+                        System.out.println("enter the type of wallet you want to transfer to : ");
+                        String choice4 = input.next();
                         System.out.print("Enter the mobile number of the recipient : ");
                         String recipient = input.next();
                         System.out.print("Enter the amount you want to transfer : ");
                         double amount = input.nextDouble();
-                        walletTransfer.transferMoney(user.getInstapayAccount(), recipient, amount);
+                        if (choice4.equals("Vodafone")) {
+                            walletTransfer.transferMoney(user, new VodafoneCashProvider(new VodafoneCash()), recipient, amount);
+                        } else if (choice4.equals("CIB")) {
+                            walletTransfer.transferMoney(user, new CIBWalletProvider(new CIB()), recipient, amount);
+                        } else if (choice4.equals("Fawry")) {
+                            walletTransfer.transferMoney(user, new FawryWalletProvider(new Fawry()), recipient, amount);
+                        }
                     } else if (choice3 == 3 && user.getTypeOfInstapayAccount().equals("Bank")) {
                         BankTransfer bankTransfer = new BankTransfer();
+                        System.out.println("1- NEB");
+                        System.out.println("2- QNB");
+                        System.out.println("3- AAIB");
+                        System.out.println("enter the type of bank you want to transfer to : ");
+                        String choice4 = input.next();
                         System.out.print("Enter the bank account number of the recipient : ");
                         String recipient = input.next();
                         System.out.print("Enter the amount you want to transfer : ");
                         double amount = input.nextDouble();
-                        bankTransfer.transferMoney(user.getInstapayAccount(), recipient, amount);
+                        if (choice4.equals("NEB")) {
+                            bankTransfer.transferMoney(user, new NEBService(new NEBAPI()), recipient, amount);
+                        } else if (choice4.equals("QNB")) {
+                            bankTransfer.transferMoney(user, new QNBService(new QNBAPI()), recipient, amount);
+                        } else if (choice4.equals("AAIB")) {
+                            bankTransfer.transferMoney(user, new AAIBService(new AAIBAPI()), recipient, amount);
+                        }
                     } else if (choice3 == 4) {
                         continue;
                     } else if (choice3 == 5) {

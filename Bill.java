@@ -7,7 +7,6 @@ public abstract class Bill {
     }
 
     String CompanyBankAccountNumber;
-    String bank;
     BankTransfer t = new BankTransfer();
     protected double amount;
 
@@ -21,7 +20,7 @@ public abstract class Bill {
         return amount;
     }
 
-    abstract void payBill(InstapayAccount s) throws FileNotFoundException;
+    abstract void payBill(User s) throws FileNotFoundException;
 
     public void updateBillAmount() {
         this.amount += generateRandomBill();
@@ -30,11 +29,11 @@ public abstract class Bill {
 
 class ElectricBill extends Bill {
     String CompanyBankAccountNumber = "123456789";
-    String bank = "NEB";
+    BankService bank = new NEBService(new NEBAPI());
 
     @Override
-    public void payBill(InstapayAccount s) throws FileNotFoundException {
-        t.transferMoney(s, CompanyBankAccountNumber, amount);
+    public void payBill(User s) throws FileNotFoundException {
+        t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
         System.out.println("Electric bill paid successfully, amount paid: " + amount);
         amount = 0;
     }
@@ -42,11 +41,11 @@ class ElectricBill extends Bill {
 
 class GasBill extends Bill {
     String CompanyBankAccountNumber = "1234567810";
-    String bank = "QNB";
+    BankService bank = new QNBService(new QNBAPI());
 
     @Override
-    public void payBill(InstapayAccount s) throws FileNotFoundException {
-        t.transferMoney(s, CompanyBankAccountNumber, amount);
+    public void payBill(User s) throws FileNotFoundException {
+        t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
         System.out.println("Electric bill paid successfully, amount paid: " + amount);
         amount = 0;
     }
@@ -54,11 +53,11 @@ class GasBill extends Bill {
 
 class WaterBill extends Bill {
     String CompanyBankAccountNumber = "1234567811";
-    String bank = "AAIB";
+    BankService bank = new QNBService(new QNBAPI());
 
     @Override
-    public void payBill(InstapayAccount s) throws FileNotFoundException {
-        t.transferMoney(s, CompanyBankAccountNumber, amount);
+    public void payBill(User s) throws FileNotFoundException {
+        t.transferMoney(s, bank, CompanyBankAccountNumber, amount);
         System.out.println("Electric bill paid successfully, amount paid: " + amount);
         amount = 0;
     }

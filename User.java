@@ -31,32 +31,33 @@ public class User {
         return bills.get(2);
     }
 
-    public User(String userName, String password, String mobileNumber, String accountType, String provider) {
+    public User(String userName, String password, String mobileNumber, String accountType, String provider, String BankAccountNumber) {
         this.userName = userName;
         this.password = password;
         this.mobileNumber = mobileNumber;
         this.provider = provider;
         if (accountType.equals("Bank")) {
             if (provider.equals("NEB")) {
-                this.instapayAccount = new BankAccount(new NEBService(new NEBAPI()));
-                this.bankAccount = new BankAccount(new NEBService(new NEBAPI()));
+                this.instapayAccount = new BankAccount(new NEBService(new NEBAPI()), BankAccountNumber);
+                this.bankAccount = new BankAccount(new NEBService(new NEBAPI()), BankAccountNumber);
             } else if (provider.equals("QNB")) {
-                this.instapayAccount = new BankAccount(new QNBService(new QNBAPI()));
-                this.bankAccount = new BankAccount(new QNBService(new QNBAPI()));
+                this.instapayAccount = new BankAccount(new QNBService(new QNBAPI()), BankAccountNumber);
+                this.bankAccount = new BankAccount(new QNBService(new QNBAPI()), BankAccountNumber);
             } else if (provider.equals("AAIB")) {
-                this.instapayAccount = new BankAccount(new AAIBService(new AAIBAPI()));
-                this.bankAccount = new BankAccount(new AAIBService(new AAIBAPI()));
+                this.instapayAccount = new BankAccount(new AAIBService(new AAIBAPI()), BankAccountNumber);
+                this.bankAccount = new BankAccount(new AAIBService(new AAIBAPI()), BankAccountNumber);
             }
         } else if (accountType.equals("Wallet")) {
+            setBankAccountNumber("0");
             if (provider.equals("Vodafone")) {
-                this.instapayAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()));
-                this.walletAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()));
+                this.instapayAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()), mobileNumber);
+                this.walletAccount = new WalletAccount(new VodafoneCashProvider(new VodafoneCash()), mobileNumber);
             } else if (provider.equals("CIB")) {
-                this.instapayAccount = new WalletAccount(new CIBWalletProvider(new CIB()));
-                this.walletAccount = new WalletAccount(new CIBWalletProvider(new CIB()));
+                this.instapayAccount = new WalletAccount(new CIBWalletProvider(new CIB()), mobileNumber);
+                this.walletAccount = new WalletAccount(new CIBWalletProvider(new CIB()), mobileNumber);
             } else if (provider.equals("Fawry")) {
-                this.instapayAccount = new WalletAccount(new FawryWalletProvider(new Fawry()));
-                this.walletAccount = new WalletAccount(new FawryWalletProvider(new Fawry()));
+                this.instapayAccount = new WalletAccount(new FawryWalletProvider(new Fawry()), mobileNumber);
+                this.walletAccount = new WalletAccount(new FawryWalletProvider(new Fawry()), mobileNumber);
             }
         }
     }
@@ -114,7 +115,10 @@ public class User {
     }
 
     public String getBankAccountNumber() {
-        return BankAccountNumber;
+        if (instapayAccount instanceof BankAccount) {
+            return BankAccountNumber;
+        }
+        return "0";
     }
 
     public BankAccount getBankAccount() {
@@ -185,9 +189,8 @@ class Registration {
                                 if (accountType.equals("Bank")) {
                                     System.out.print("Enter your Account Number : ");
                                     String accountNumber = scanner.nextLine();
-                                    user = new User(userName, password, mobileNumber, accountType, provider);
+                                    user = new User(userName, password, mobileNumber, accountType, provider, accountNumber);
                                     if (user.getBankAccount().processMobileVerification(accountNumber, user.getMobileNumber())) {
-                                        user.setBankAccountNumber(accountNumber);
                                         file.add(user);
                                     } else {
                                         System.out.println("Invalid account number");
@@ -195,7 +198,7 @@ class Registration {
                                         return false;
                                     }
                                 } else {
-                                    user = new User(userName, password, mobileNumber, accountType, provider);
+                                    user = new User(userName, password, mobileNumber, accountType, provider, "0");
                                     if (user.getWalletAccount().processWalletVerification(user.getMobileNumber())) {
                                         file.add(user);
                                     } else {
@@ -222,9 +225,8 @@ class Registration {
                                         if (accountType.equals("Bank")) {
                                             System.out.print("Enter your Account Number : ");
                                             String accountNumber = scanner.nextLine();
-                                            user = new User(userName, password, mobileNumber, accountType, provider);
+                                            user = new User(userName, password, mobileNumber, accountType, provider, accountNumber);
                                             if (user.getBankAccount().processMobileVerification(accountNumber, user.getMobileNumber())) {
-                                                user.setBankAccountNumber(accountNumber);
                                                 file.add(user);
                                             } else {
                                                 System.out.println("Invalid account number");
@@ -232,7 +234,7 @@ class Registration {
                                                 return false;
                                             }
                                         } else {
-                                            user = new User(userName, password, mobileNumber, accountType, provider);
+                                            user = new User(userName, password, mobileNumber, accountType, provider, "0");
                                             if (user.getWalletAccount().processWalletVerification(user.getMobileNumber())) {
                                                 file.add(user);
                                             } else {

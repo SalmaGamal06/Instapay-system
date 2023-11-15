@@ -1,17 +1,17 @@
-public interface BankService{
+public abstract class BankService implements Provider {
 
-    public boolean verifyBankAccount(String accountNumber);
+    public abstract boolean verify(String accountNumber);
 
-    boolean verifyMobileNumber(String accountNumber, String mobileNumber);
+    abstract boolean verifyMobileNumber(String accountNumber, String mobileNumber);
 
-    public double getBalance(String accountNumber);
+    public abstract double getBalance(String accountNumber);
 
-    public boolean withdrawal(String accountNumber, double amount);
+    public abstract boolean withdrawal(String accountNumber, double amount);
 
-    public boolean deposit(String accountNumber, double amount);
+    public abstract boolean deposit(String accountNumber, double amount);
 }
 
-class NEBService implements BankService{
+class NEBService extends BankService {
     private NEBAPI neb;
 
     public NEBService(NEBAPI neb) {
@@ -19,8 +19,8 @@ class NEBService implements BankService{
     }
 
     @Override
-    public boolean verifyBankAccount(String accountNumber) {
-        return  neb.verifyAccount(accountNumber);
+    public boolean verify(String accountNumber) {
+        return neb.verifyAccount(accountNumber);
     }
 
     @Override
@@ -35,25 +35,26 @@ class NEBService implements BankService{
 
     @Override
     public boolean withdrawal(String accountNumber, double amount) {
-        return neb.withdrawal( accountNumber,amount);
+        return neb.withdrawal(accountNumber, amount);
     }
 
     @Override
     public boolean deposit(String accountNumber, double amount) {
-        return neb.deposit(accountNumber,amount);
+        return neb.deposit(accountNumber, amount);
     }
 }
 
 
-class QNBService implements BankService{
+class QNBService extends BankService {
     private QNBAPI qnb;
+
     public QNBService(QNBAPI qnb) {
         this.qnb = qnb;
     }
 
     @Override
-    public boolean verifyBankAccount(String accountNumber) {
-        return  qnb.verifyAccount(accountNumber);
+    public boolean verify(String accountNumber) {
+        return qnb.verifyAccount(accountNumber);
     }
 
     @Override
@@ -69,25 +70,26 @@ class QNBService implements BankService{
 
     @Override
     public boolean withdrawal(String accountNumber, double amount) {
-        return qnb.withdrawal( accountNumber,amount);
+        return qnb.withdrawal(accountNumber, amount);
     }
 
     @Override
     public boolean deposit(String accountNumber, double amount) {
-        return qnb.deposit(accountNumber,amount);
+        return qnb.deposit(accountNumber, amount);
     }
 }
 
 
-class AAIBService implements BankService{
+class AAIBService extends BankService {
     private AAIBAPI aaib;
+
     public AAIBService(AAIBAPI aaib) {
         this.aaib = aaib;
     }
 
     @Override
-    public boolean verifyBankAccount(String accountNumber) {
-        return  aaib.verifyAccount(accountNumber);
+    public boolean verify(String accountNumber) {
+        return aaib.verifyAccount(accountNumber);
     }
 
     @Override
@@ -103,12 +105,12 @@ class AAIBService implements BankService{
 
     @Override
     public boolean withdrawal(String accountNumber, double amount) {
-        return aaib.withdrawal( accountNumber,amount);
+        return aaib.withdrawal(accountNumber, amount);
     }
 
     @Override
     public boolean deposit(String accountNumber, double amount) {
-        return aaib.deposit(accountNumber,amount);
+        return aaib.deposit(accountNumber, amount);
     }
 }
 

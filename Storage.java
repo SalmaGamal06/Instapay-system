@@ -74,7 +74,7 @@ class FileStorage implements Storage<User> {
             if (user.getTypeOfInstapayAccount().equals("Bank")) {
                 writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber() + " " + user.getTypeOfInstapayAccount() + " " + user.getProvider() + " " + user.getBankAccountNumber() + "\n");
             } else {
-                writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber() + " " + user.getTypeOfInstapayAccount() + " " + user.getProvider() + "\n");
+                writer.write(user.getUserName() + " " + user.getPassword() + " " + user.getMobileNumber() + " " + user.getTypeOfInstapayAccount() + " " + user.getProvider() + "0" + "\n");
             }
             writer.close();
             return true;
@@ -93,7 +93,7 @@ class FileStorage implements Storage<User> {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] words = line.split(" ");
                 if (words[0].equals(uniqueIdentifier)) {
-                    User user = new User(words[0], words[1], words[2], words[3], words[4]);
+                    User user = new User(words[0], words[1], words[2], words[3], words[4], words[5]);
                     return user;
                 }
             }
@@ -111,7 +111,7 @@ class FileStorage implements Storage<User> {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] words = line.split(" ");
                 if (words[2].equals(mobile)) {
-                    User user = new User(words[0], words[1], words[2], words[3], words[4]);
+                    User user = new User(words[0], words[1], words[2], words[3], words[4], words[5]);
                     return user;
                 }
             }
@@ -130,7 +130,7 @@ class FileStorage implements Storage<User> {
                 String[] words = line.split(" ");
                 if (words.length == 6) {
                     if (words[5].equals(accountNum)) {
-                        User user = new User(words[0], words[1], words[2], words[3], words[4]);
+                        User user = new User(words[0], words[1], words[2], words[3], words[4], words[5]);
                         user.setBankAccountNumber(words[5]);
                         return user;
                     }
@@ -151,7 +151,7 @@ class FileStorage implements Storage<User> {
         try {
             while ((line = bufferedReader.readLine()) != null) {
                 String[] words = line.split(" ");
-                User user = new User(words[0], words[1], words[2], words[3], words[4]);
+                User user = new User(words[0], words[1], words[2], words[3], words[4], words[5]);
                 users.add(user);
             }
             return users;
